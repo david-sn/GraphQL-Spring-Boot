@@ -6,47 +6,76 @@
 package com.mycompany.graphql.entity;
 
 import java.io.Serializable;
+import java.util.Set;
+import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 /**
  *
  * @author D.Nazer
  */
 @Entity
+@Table(name = "person")
+@NamedQueries({
+    @NamedQuery(name = "Person.findAll", query = "SELECT p FROM Person p")})
 public class Person implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     @Id
-    private Long ids;
-    private String first_name;
-    private String last_name;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "ids")
+    private Integer ids;
+    @Size(max = 255)
+    @Column(name = "first_name")
+    private String firstName;
+    @Size(max = 255)
+    @Column(name = "last_name")
+    private String lastName;
+    @Size(max = 255)
+    @Column(name = "title")
     private String title;
+    @ManyToMany(mappedBy = "personSet")
+    private Set<Address> addressSet;
 
     public Person() {
     }
 
-    public Long getIds() {
-        return ids;
-    }
-
-    public void setIds(Long ids) {
+    public Person(Integer ids) {
         this.ids = ids;
     }
 
-    public String getFirst_name() {
-        return first_name;
+    public Integer getIds() {
+        return ids;
     }
 
-    public void setFirst_name(String first_name) {
-        this.first_name = first_name;
+    public void setIds(Integer ids) {
+        this.ids = ids;
     }
 
-    public String getLast_name() {
-        return last_name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setLast_name(String last_name) {
-        this.last_name = last_name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getTitle() {
@@ -57,4 +86,37 @@ public class Person implements Serializable {
         this.title = title;
     }
 
+    public Set<Address> getAddressSet() {
+        return addressSet;
+    }
+
+    public void setAddressSet(Set<Address> addressSet) {
+        this.addressSet = addressSet;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (ids != null ? ids.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Person)) {
+            return false;
+        }
+        Person other = (Person) object;
+        if ((this.ids == null && other.ids != null) || (this.ids != null && !this.ids.equals(other.ids))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "com.mycompany.graphql.entity.Person[ ids=" + ids + " ]";
+    }
+    
 }

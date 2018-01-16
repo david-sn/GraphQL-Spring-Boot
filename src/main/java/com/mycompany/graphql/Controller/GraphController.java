@@ -1,5 +1,6 @@
 package com.mycompany.graphql.Controller;
 
+import com.mycompany.graphql.Service.AddressService;
 import com.mycompany.graphql.Service.AllPersonService;
 import com.mycompany.graphql.Service.GetPersonByID;
 import graphql.ExecutionResult;
@@ -40,6 +41,9 @@ public class GraphController {
     @Autowired
     private GetPersonByID getPersonByID;
 
+    @Autowired
+    private AddressService addressService;
+
     //start to load file
     @PostConstruct
     public void loadSchema() throws IOException {
@@ -55,9 +59,10 @@ public class GraphController {
 
         //custom data featcher
         return RuntimeWiring.newRuntimeWiring()
-                .type("Query", typewirring -> typewirring
-                .dataFetcher("getAllPerson", getAllPersonSercive)
-                .dataFetcher("getById", getPersonByID)
+                .type(
+                        "Query", typewirring -> typewirring
+                                .dataFetcher("getAllPerson", getAllPersonSercive)
+                                .dataFetcher("getById", getPersonByID)
                 )
                 .build();
 

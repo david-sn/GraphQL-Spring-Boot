@@ -1,16 +1,24 @@
 
 schema{
-query:Query
+    query : Query
 }
 
 type Query{
-getAllPerson:[Person]
-getById(ids:Long):Person
+    getAllPerson        : [Person]
+    getById(ids:Long)   : Person
 }
 
 type Person{
-     ids         :Long;
+     ids        :Int;
      first_name :String;
      last_name  :String;
      title      :String;
+     addressSet :[Address];
+}
+
+type Address{
+    id:Int     
+    street:String 
+    zip:String
+    personSet:[Person]
 }

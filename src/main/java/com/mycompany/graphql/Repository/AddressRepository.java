@@ -5,7 +5,8 @@
  */
 package com.mycompany.graphql.Repository;
 
-import com.mycompany.graphql.entity.Person;
+import com.mycompany.graphql.entity.Address;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Repository;
  * @author D.Nazer
  */
 @Repository
-public interface PersonRepository extends JpaRepository<Person, Integer> {
+public interface AddressRepository extends JpaRepository<Address, Integer> {
 
+    List<Address> findByPersonSet_ids(Integer ids);
 }

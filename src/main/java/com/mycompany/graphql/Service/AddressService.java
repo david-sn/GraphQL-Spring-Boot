@@ -5,10 +5,12 @@
  */
 package com.mycompany.graphql.Service;
 
-import com.mycompany.graphql.Repository.PersonRepository;
+import com.mycompany.graphql.Repository.AddressRepository;
+import com.mycompany.graphql.entity.Address;
 import com.mycompany.graphql.entity.Person;
 import graphql.schema.DataFetcher;
 import graphql.schema.DataFetchingEnvironment;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,15 +19,16 @@ import org.springframework.stereotype.Service;
  * @author D.Nazer
  */
 @Service
-public class GetPersonByID implements DataFetcher<Person> {
+public class AddressService implements DataFetcher<List<Address>> {
 
     @Autowired
-    private PersonRepository personRepository;
+    private AddressRepository addressRepository;
 
     @Override
-    public Person get(DataFetchingEnvironment dfe) {
-        Long id = (dfe.getArgument("ids"));
-        return personRepository.findOne(Integer.valueOf(id+""));
+    public List<Address> get(DataFetchingEnvironment dfe) {
+
+        Person p = dfe.getSource();
+        return addressRepository.findByPersonSet_ids(p.getIds());
     }
 
 }
